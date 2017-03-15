@@ -1,0 +1,30 @@
+{
+  "name": "super-awesome-map-data-layer-styler",
+  "version": "0.1.0",
+  "description": "Component for styling data on top of a map",
+  "main": "server.js",
+  "scripts": {
+    "lint": "standard",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teanocrata/super-awesome-map-data-layer-styler.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/teanocrata/super-awesome-map-data-layer-styler/issues"
+  },
+  "homepage": "https://teanocrata.github.io/super-awesome-map-data-layer-styler/",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "standard": "^9.0.1"
+  }
+}
