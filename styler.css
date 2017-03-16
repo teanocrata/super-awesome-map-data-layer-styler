@@ -5,6 +5,24 @@ body, html {
   font-weight: lighter;
 }
 
+ul{
+  list-style-type: none;
+  padding: inherit;
+  display: flex;
+  align-items: center;
+}
+
+button {
+  font-weight: 600;
+  padding: 16px 26px 16px 26px;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  border: none;
+  background-color: #27c22a;
+  text-shadow: rgba(0, 0, 0, 0.0784314) 0 -1px 0;
+}
+
 .navigation-pane{
   position: absolute;
   height: 100%;
@@ -16,12 +34,15 @@ body, html {
   z-index: 3;
 }
 
-ul{
-  list-style-type: none;
-  padding: inherit;
-  display: flex;
-  align-items: center;
+.navigation-pane button {
+  width: 100%;
 }
+
+.navigation-pane li {
+  width: 100%;
+}
+
+
 
 .dashboard {
   position: absolute;
@@ -59,17 +80,6 @@ ul{
 
 .styler-pane li{
   padding: 15px;
-}
-
-button {
-  font-weight: 600;
-  padding: 16px 26px 16px 26px;
-  cursor: pointer;
-  text-align: center;
-  color: white;
-  border: none;
-  background-color: #27c22a;
-  text-shadow: rgba(0, 0, 0, 0.0784314) 0 -1px 0;
 }
 
 .active{
