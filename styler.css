@@ -1,0 +1,77 @@
+body, html {
+  font-family: 'open sans', arial, sans-serif;
+  font-size: 16px;
+  color: rgb(76, 76, 76);
+  font-weight: lighter;
+}
+
+.navigation-pane{
+  position: absolute;
+  height: 100%;
+  width: 5%;
+  left: 0;
+  opacity: 1;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+}
+
+ul{
+  list-style-type: none;
+  padding: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard {
+  position: absolute;
+  width: 95%;
+  height: 100%;
+  right: 0;
+}
+
+.styler-pane {
+  width: 408px;
+  position: absolute;
+  top: 0;
+  left: 5%;
+  z-index: 3;
+  opacity: 1;
+  height: 10%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  display: none;
+  align-items: center;
+}
+
+.styler-pane input {
+  background-color: transparent;
+  padding-left: 15px;
+}
+
+.styler-pane input[type=color] {
+  border: 0;
+}
+
+.styler-pane input[type=number] {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.styler-pane li{
+  padding: 15px;
+}
+
+button {
+  font-weight: 600;
+  padding: 16px 26px 16px 26px;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  border: none;
+  background-color: #27c22a;
+  text-shadow: rgba(0, 0, 0, 0.0784314) 0 -1px 0;
+}
+
+.active{
+  display: flex;
+}

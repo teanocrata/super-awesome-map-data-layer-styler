@@ -31,8 +31,22 @@
     </style>
   </head>
   <body>
-    <div id="map"></div>
-    <div id="drop-container"><div id="drop-silhouette"></div></div>
+    <nav class="navigation-pane">
+      <ul>
+        <li><button onclick="document.getElementById('styler-pane').classList.toggle('active')">Edit</button></li>
+      </ul>
+    </nav>
+    <div class="dashboard">
+      <div id="map"></div>
+      <div id="drop-container"><div id="drop-silhouette"></div></div>
+    </div>
+    <nav id="styler-pane" class="styler-pane">
+      <ul>
+        <li>Fill <input type="color" name="fill-color"></li>
+        <li>Stroke <input type="color" name="stroke-color"></li>
+        <li>Size <input type="number" name="quantity" min="1" max="5"></li>
+      </ul>
+    </nav>
     <script>
       /* Map functions */
 
@@ -152,5 +166,6 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoVAIo_FNTFH5XgTNppvIcAONIVO3Acpc&callback=initialize"></script>
+    <link rel="stylesheet" href="styler.css"/>
   </body>
 </html>
