@@ -23,6 +23,7 @@ function changeStyle () {
     reset()
   } else {
     map.data.setStyle({
+      title: "Algo",
       icon: {
         path: symbolPath[marker.value],
         scale: size.value,

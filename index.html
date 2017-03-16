@@ -33,7 +33,7 @@
   <body>
     <nav class="navigation-pane">
       <ul>
-        <li><button onclick="document.getElementById('styler-pane').classList.toggle('active')">Edit</button></li>
+        <li><button onclick="document.getElementById('styler-pane').classList.toggle('active')"><i class="material-icons">mode_edit</i></button></li>
       </ul>
     </nav>
     <div class="dashboard">
@@ -55,8 +55,8 @@
         <li>Opacity <input id="opacity" type="range" min="0" max="1" step="0.01" value="0.5"></li>
         <li>Stroke <input id="stroke-color" type="color" value="#006400"></li>
         <li>Size <input id="size" type="range" min="1" max="10" value=10></li>
-        <li><button id="close">Close</button></li>
-        <li><button id="reset" type="reset">Reset</button></li>
+        <li><button id="close"><i class="material-icons">keyboard_arrow_left</i></li>
+        <li><button id="reset" type="reset"><i class="material-icons">format_color_reset</i></button></li>
       </ul>
     </nav>
     <script>
@@ -180,5 +180,6 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoVAIo_FNTFH5XgTNppvIcAONIVO3Acpc&callback=initialize"></script>
     <script type="application/javascript" src="styler.js"></script>
     <link rel="stylesheet" href="styler.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </body>
 </html>
