@@ -42,9 +42,21 @@
     </div>
     <nav id="styler-pane" class="styler-pane">
       <ul>
-        <li>Fill <input type="color" name="fill-color"></li>
-        <li>Stroke <input type="color" name="stroke-color"></li>
-        <li>Size <input type="number" name="quantity" min="1" max="5"></li>
+        <li>Marker <select id="marker">
+                    <option value="DEFAULT" selected>Maps marker</option>
+                    <option value="CIRCLE">Circle</option>
+                    <option value="BACKWARD_CLOSED_ARROW">Down Closed arrow</option>
+                    <option value="BACKWARD_OPEN_ARROW">Down Open arrow</option>
+                    <option value="FORWARD_CLOSED_ARROW">Up Closed arrow</option>
+                    <option value="FORWARD_OPEN_ARROW">Up Open arrow</option>
+                  </select>
+        </li>
+        <li>Fill <input id="fill-color" type="color" value="#27c22a"></li>
+        <li>Opacity <input id="opacity" type="range" min="0" max="1" step="0.01" value="0.5"></li>
+        <li>Stroke <input id="stroke-color" type="color" value="#006400"></li>
+        <li>Size <input id="size" type="range" min="1" max="10" value=10></li>
+        <li><button id="close">Close</button></li>
+        <li><button id="reset" type="reset">Reset</button></li>
       </ul>
     </nav>
     <script>
@@ -166,6 +178,7 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoVAIo_FNTFH5XgTNppvIcAONIVO3Acpc&callback=initialize"></script>
+    <script type="application/javascript" src="styler.js"></script>
     <link rel="stylesheet" href="styler.css"/>
   </body>
 </html>
