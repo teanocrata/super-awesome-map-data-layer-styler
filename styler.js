@@ -19,19 +19,24 @@ function changeStyle () {
     'FORWARD_OPEN_ARROW': google.maps.SymbolPath.FORWARD_OPEN_ARROW
   }
 
-  if (marker.value == 'DEFAULT') {
+  if (marker.value === 'DEFAULT') {
     reset()
   } else {
-    map.data.setStyle({
-      title: "Algo",
-      icon: {
-        path: symbolPath[marker.value],
-        scale: size.value,
-        fillColor: fillColor.value,
-        fillOpacity: opacity.value,
-        strokeColor: strokeColor.value,
-        strokeWeight: 1
-      }
+    // Add a basic style.
+    map.data.setStyle(function (feature) { // eslint-disable-line
+      var title = feature.getProperty('nameascii') + ', ' + feature.getProperty('adm1name') + ' (' + feature.getProperty('adm0name') + ')'
+
+      return /** @type {google.maps.Data.StyleOptions} */({
+        title: title,
+        icon: {
+          path: symbolPath[marker.value],
+          scale: size.value,
+          fillColor: fillColor.value,
+          fillOpacity: opacity.value,
+          strokeColor: strokeColor.value,
+          strokeWeight: 1
+        }
+      })
     })
   }
 }
@@ -49,6 +54,6 @@ function closePane () {
 }
 
 function reset () {
-  map.data.setStyle({})
+  map.data.setStyle({}) // eslint-disable-line
   closePane()
 }
