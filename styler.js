@@ -1,6 +1,7 @@
 'use strict'
 
 var styler = (function () { // eslint-disable-line no-unused-vars
+  var numericVariables = {}
   var stylerPane = {
     createTemplate: createStylerPaneTemplate,
     getValues: getValues,
@@ -25,12 +26,55 @@ var styler = (function () { // eslint-disable-line no-unused-vars
 
       addButton(selectorsContainer, 'keyboard_arrow_left', closePane)
       addButton(selectorsContainer, 'format_color_reset', 'reset')
+      addButton(selectorsContainer, 'power_settings_new', 'dynamise')
 
       document.body.appendChild(stylerPaneTemplate)
     }
   }
 
-  function createSelector (option) {
+  function createDynamicStylerPaneTemplate (map) {
+    map.data.toGeoJson(function (data) {
+      for (var feature in data.features) {
+        for (var property in data.features[feature].properties) {
+          if (typeof data.features[feature].properties[property] === 'number') {
+            if (numericVariables[property]) {
+              numericVariables[property].min = numericVariables[property].min > data.features[feature].properties[property] ? data.features[feature].properties[property] : numericVariables[property].min
+              numericVariables[property].max = numericVariables[property].max < data.features[feature].properties[property] ? data.features[feature].properties[property] : numericVariables[property].max
+            } else {
+              numericVariables[property] = {min: data.features[feature].properties[property], max: data.features[feature].properties[property]}
+            }
+          }
+        }
+      }
+    })
+
+    var selectorsContainer = document.getElementById('styler-pane').getElementsByTagName('ul')[0]
+    var selectors = selectorsContainer.getElementsByTagName('input')
+
+    for (var selector = 0; selector < selectors.length; selector++) {
+      if (selectors[selector].getAttribute('type') === 'range') {
+        var option = {label: selectors[selector].parentNode.innerText,
+          type: 'select',
+          mapStyleOption: selectors[selector].getAttribute('id'),
+          settings: {options: [{label: 'Default', value: 'default'}]
+          }
+        }
+        for (var numericVariable in numericVariables) {
+          if (numericVariables[numericVariable].min !== numericVariables[numericVariable].max && !numericVariable.includes('id')) {
+            option.settings.options.push({label: numericVariable, value: numericVariable})
+          }
+        }
+        selectorsContainer.appendChild(createSelector(option, 'dynamicSelector'))
+      }
+    }
+
+    Array.from(document.getElementsByClassName('dynamicSelector')).forEach(function (selector) {
+      selector.addEventListener('change', changeStyle.bind(null, map, true))
+    })
+  }
+
+  function createSelector (option, selectorType) {
+    selectorType = selectorType || 'selector'
     var selector = document.createElement('li')
     selector.innerHTML = option.label
 
@@ -63,7 +107,7 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     id.value = option.mapStyleOption
     input.setAttributeNode(id)
 
-    input.classList.add('selector')
+    input.classList.add(selectorType)
 
     selector.appendChild(input)
 
@@ -96,11 +140,18 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     element.appendChild(buttonContainer)
   }
 
-  function getValues () {
+  function getValues (dynamic) {
     var options = {}
-    Array.from(document.getElementsByClassName('selector')).forEach(function (selector) {
-      options[selector.id] = selector.value
-    })
+    if (!dynamic) {
+      Array.from(document.getElementsByClassName('selector')).forEach(function (selector) {
+        options[selector.id] = selector.value
+      })
+    } else {
+      Array.from(document.getElementsByClassName('dynamicSelector')).forEach(function (selector) {
+        options[selector.id] = selector.value
+      })
+    }
+
     return options
   }
 
@@ -112,43 +163,101 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     })
 
     Array.from(document.getElementsByClassName('selector')).forEach(function (selector) {
-      selector.addEventListener('change', changeStyle.bind(null, map))
+      selector.addEventListener('change', changeStyle.bind(null, map, false))
     })
 
     var resetButton = document.getElementById('reset')
     resetButton.addEventListener('click', reset.bind(null, map))
+
+    var dynamiseButton = document.getElementById('dynamise')
+    dynamiseButton.addEventListener('click', dynamise.bind(null, map))
   }
 
   function closePane () {
     document.getElementById('styler-pane').classList.toggle('active')
   }
 
+  function toggleStaticPane () {
+    var selectors = document.getElementById('styler-pane').getElementsByClassName('selector')
+    for (var selector = 0; selector < selectors.length; selector++) {
+      selectors[selector].parentNode.classList.toggle('hide')
+    }
+  }
+
+  function removeDynamicStylerPaneTemplate () {
+    var selectors = document.getElementById('styler-pane').getElementsByClassName('dynamicSelector')
+    while (selectors.length !== 0) {
+      selectors[selectors.length - 1].parentNode.remove()
+    }
+  }
+
+  function toggleDynamicStylerPaneTemplate (map) {
+    if (document.getElementById('styler-pane').getElementsByClassName('dynamicSelector').length > 0) {
+      removeDynamicStylerPaneTemplate()
+    } else {
+      createDynamicStylerPaneTemplate(map)
+    }
+  }
+
   function reset (map) {
     map.data.setStyle({})
+    removeDynamicStylerPaneTemplate()
     closePane()
   }
 
-  function changeStyle (map) {
-    var options = stylerPane.getValues()
+  function dynamise (map) {
+    toggleStaticPane()
+    toggleDynamicStylerPaneTemplate(map)
+  }
 
-    if (options.marker === 'DEFAULT') {
-      reset(map)
+  function changeStyle (map, dynamic) {
+    dynamic = dynamic || false
+    var options = stylerPane.getValues(dynamic)
+
+    if (!dynamic) {
+      if (options.marker === 'DEFAULT') {
+        reset(map)
+      } else {
+        // Add a basic style.
+        map.data.setStyle(function (feature) {
+          var title = feature.getProperty('nameascii') + ', ' + feature.getProperty('adm1name') + ' (' + feature.getProperty('adm0name') + ')'
+
+          return ({
+            title: title,
+            icon: {
+              path: google.maps.SymbolPath[options.marker] || google.maps.SymbolPath.CIRCLE,
+              scale: options.size || 1,
+              fillColor: options.fillColor || '#000000',
+              fillOpacity: options.fillOpacity || 0,
+              strokeColor: options.strokeColor || '#000000',
+              strokeWeight: options.strokeWeight || 1,
+              strokeOpacity: options.strokeOpacity || 1,
+              rotation: options.rotation || 0
+            }
+          })
+        })
+      }
     } else {
-      // Add a basic style.
+      // Add a super awesome style.
       map.data.setStyle(function (feature) {
         var title = feature.getProperty('nameascii') + ', ' + feature.getProperty('adm1name') + ' (' + feature.getProperty('adm0name') + ')'
+        var fillOpacity = options.fillOpacity === 'default' ? 1 : (feature.getProperty(options.fillOpacity) - numericVariables[options.fillOpacity].min) / (numericVariables[options.fillOpacity].max - numericVariables[options.fillOpacity].min)
+        var size = options.size === 'default' ? 10 : (feature.getProperty(options.size) - numericVariables[options.size].min) / (numericVariables[options.size].max - numericVariables[options.size].min)
+        var strokeWeight = options.strokeWeight === 'default' ? 0.3 : (feature.getProperty(options.strokeWeight) - numericVariables[options.strokeWeight].min) / (numericVariables[options.strokeWeight].max - numericVariables[options.strokeWeight].min)
+        var strokeOpacity = options.strokeOpacity === 'default' ? 1 : (feature.getProperty(options.strokeOpacity) - numericVariables[options.strokeOpacity].min) / (numericVariables[options.strokeOpacity].max - numericVariables[options.strokeOpacity].min)
+        var rotation = options.rotation === 'default' ? 0 : (feature.getProperty(options.rotation) - numericVariables[options.rotation].min) / (numericVariables[options.rotation].max - numericVariables[options.rotation].min)
 
         return ({
           title: title,
           icon: {
-            path: google.maps.SymbolPath[options.marker] || google.maps.SymbolPath.CIRCLE,
-            scale: options.size || 1,
-            fillColor: options.fillColor || '#000000',
-            fillOpacity: options.opacity || 0,
-            strokeColor: options.strokeColor || '#000000',
-            strokeWeight: options.strokeWeight || 1,
-            strokeOpacity: options.strokeOpacity || 1,
-            rotation: options.rotation || 0
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 20 * size,
+            fillColor: '#000000',
+            fillOpacity: fillOpacity,
+            strokeColor: '#000000',
+            strokeWeight: strokeWeight,
+            strokeOpacity: strokeOpacity,
+            rotation: rotation
           }
         })
       })

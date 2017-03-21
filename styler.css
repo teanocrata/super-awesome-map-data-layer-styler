@@ -1,7 +1,7 @@
 body, html {
   font-family: 'open sans', arial, sans-serif;
   font-size: 16px;
-  color: rgb(76, 76, 76);
+  color: #3c6d59;
   font-weight: lighter;
 }
 
@@ -15,13 +15,21 @@ ul{
 
 button {
   font-weight: 600;
-  padding: 16px 26px 16px 26px;
   cursor: pointer;
   text-align: center;
-  color: white;
+  color: #97c68b;
   border: none;
-  background-color: #27c22a;
+  background-color: transparent;
   text-shadow: rgba(0, 0, 0, 0.0784314) 0 -1px 0;
+}
+
+button:focus{
+  color: white;
+  background-color: #97c68b;
+}
+
+button:hover{
+  outline-color: #3c6d59;
 }
 
 .navigation-pane{
@@ -45,8 +53,6 @@ button {
   width: 100%;
 }
 
-
-
 .dashboard {
   position: absolute;
   width: 95%;
@@ -66,17 +72,43 @@ button {
   align-items: center;
 }
 
-.styler-pane input {
-  background-color: transparent;
-  padding-left: 15px;
+.styler-pane input,select {
+    -webkit-appearance: none !important;
+    background-color: #A3CD99;
+    border: 1px solid #97c68b;
+    padding-left: 15px;
+    width: 100%;
+    height: 15px;
+    border-radius: 10px;
+    margin: auto;
+    transition: all 0.3s ease;
+    font-family: 'open sans', arial, sans-serif;
+    font-size: 12px;
+    padding: 0px 10px;
 }
 
-.styler-pane input[type=color] {
-  border: 0;
+.styler-pane select {
+  color: white
 }
 
-.styler-pane input[type=number] {
-  border: 1px solid rgba(0, 0, 0, 0.3);
+.styler-pane input,select:hover {
+  background-color: #b2d5aa;
+}
+
+.styler-pane input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 20px;
+  height: 20px;
+  background-color: #579E81;
+  border-radius: 30px;
+  box-shadow: 0px 0px 3px #3c6d59;
+  transition: all 0.5s ease;
+}
+.styler-pane input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: #457d66;
+}
+.styler-pane input[type="range"]::-webkit-slider-thumb:active {
+  box-shadow: 0px 0px 1px #3c6d59;
 }
 
 .styler-pane li{
@@ -85,4 +117,8 @@ button {
 
 .active{
   display: block;
+}
+
+.hide {
+  display: none
 }
