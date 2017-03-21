@@ -81,6 +81,31 @@ To create a styler pane add the following code to your script:
 ```javascript
 styler.addStyler('edit-button', map, options)
 ```
+## Development
+
+To run the test you will need to install all dependencies, you will need `nodejs` as well as `npm`. Then in the root directory run:
+```
+$ npm install
+```
+
+Then you can automatically test everything with:
+```
+$ npm test
+```
+
+To check style rules you can execute:
+```
+$ npm run lint
+```
+
+And you can start a server with:
+```
+$ npm serve
+```
+
+> super-awesome-map-data-layer-styler uses Google Maps JavaScript API, to load it, use a sript tag with your own API key (see [Get a Key](https://developers.google.com/maps/documentation/javascript/get-api-key) for more information). You can choose one of [these tutorials](https://developers.google.com/maps/documentation/javascript/) to learns about it.
+
+
 ## Next steps
 
 * choropleth map
