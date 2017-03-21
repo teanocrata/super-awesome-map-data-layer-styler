@@ -1,39 +1,74 @@
-var styler = (function () {
+'use strict'
+
+var styler = (function () { // eslint-disable-line no-unused-vars
   var stylerPane = {
     createTemplate: createStylerPaneTemplate,
     getValues: getValues,
     bindTo: bindTo
   }
 
-  function createStylerPaneTemplate () {
+  function createStylerPaneTemplate (options) {
     var stylerPaneTemplate = document.createElement('nav')
     var stylerPaneTemplateId = document.createAttribute('id')
     stylerPaneTemplateId.value = 'styler-pane'
     stylerPaneTemplate.setAttributeNode(stylerPaneTemplateId)
     stylerPaneTemplate.classList.add('styler-pane')
 
-    var content = '<ul>' +
-      '<li>Marker <select id="marker" class="selector">' +
-      '            <option value="DEFAULT" selected>Maps marker</option>' +
-      '            <option value="CIRCLE">Circle</option>' +
-      '            <option value="BACKWARD_CLOSED_ARROW">Down Closed arrow</option>' +
-      '            <option value="BACKWARD_OPEN_ARROW">Down Open arrow</option>' +
-      '            <option value="FORWARD_CLOSED_ARROW">Up Closed arrow</option>' +
-      '            <option value="FORWARD_OPEN_ARROW">Up Open arrow</option>' +
-      '          </select>' +
-      '</li>' +
-      '<li>Fill <input id="fillColor" type="color" class="selector"></li>' +
-      '<li>Opacity <input id="opacity" type="range" min="0" max="1" step="0.01" class="selector"></li>' +
-      '<li>Stroke <input id="strokeColor" type="color" class="selector"></li>' +
-      '<li>Size <input id="size" type="range" min="1" max="10" class="selector"></li>' +
-      '<li>Rotation <input id="rotation" type="range" min="1" max="360" class="selector"></li>' +
-      '<li><button id="close"><i class="material-icons">keyboard_arrow_left</i></li>' +
+    var content = '<ul id="selectors">' +
+      '<li id="close-pane"><button id="close"><i class="material-icons">keyboard_arrow_left</i></li>' +
       '<li><button id="reset" type="reset"><i class="material-icons">format_color_reset</i></button></li>'
     stylerPaneTemplate.innerHTML = content
     document.body.appendChild(stylerPaneTemplate)
 
-    var closeButton = document.getElementById('close')
-    closeButton.addEventListener('click', closePane)
+    var closeButton = document.getElementById('close-pane')
+
+    for (var i = 0; i < options.length; i++) {
+      var option = options[i]
+      document.getElementById('selectors').insertBefore(createSelector(option), closeButton)
+    }
+
+    var closeButton2 = document.getElementById('close')
+    closeButton2.addEventListener('click', closePane)
+  }
+
+  function createSelector (option) {
+    var selector = document.createElement('li')
+    selector.innerHTML = option.label
+
+    var input
+
+    if (option.type === 'select') {
+      input = document.createElement('select')
+
+      for (var optionValues in option.settings.options) {
+        var selectOption = document.createElement('option')
+        selectOption.value = option.settings.options[optionValues].value
+        selectOption.innerHTML = option.settings.options[optionValues].label
+        input.appendChild(selectOption)
+      }
+    } else {
+      input = document.createElement('input')
+
+      var type = document.createAttribute('type')
+      type.value = option.type
+      input.setAttributeNode(type)
+
+      for (var setting in option.settings) {
+        var settingAttribute = document.createAttribute(setting)
+        settingAttribute.value = option.settings[setting]
+        input.setAttributeNode(settingAttribute)
+      }
+    }
+
+    var id = document.createAttribute('id')
+    id.value = option.mapStyleOption
+    input.setAttributeNode(id)
+
+    input.classList.add('selector')
+
+    selector.appendChild(input)
+
+    return selector
   }
 
   function getValues () {
@@ -55,15 +90,6 @@ var styler = (function () {
 
     var resetButton = document.getElementById('reset')
     resetButton.addEventListener('click', reset.bind(null, map))
-  }
-
-  function createElement (type, id, classList) {
-    var element = document.createElement(type)
-    var elementId = document.createAttribute('id')
-    elementId.value = id
-    element.setAttributeNode(elementId)
-    element.classList.add(classList)
-    return element
   }
 
   function closePane () {
@@ -102,6 +128,7 @@ var styler = (function () {
             fillOpacity: options.opacity || 0,
             strokeColor: options.strokeColor || '#000000',
             strokeWeight: options.strokeWeight || 1,
+            strokeOpacity: options.strokeOpacity || 1,
             rotation: options.rotation || 0
           }
         })
@@ -110,8 +137,8 @@ var styler = (function () {
   }
 
   return {
-    addStyler: function (buttonId, map) {
-      stylerPane.createTemplate()
+    addStyler: function (buttonId, map, options) {
+      stylerPane.createTemplate(options)
       stylerPane.bindTo(buttonId, map)
     }
   }
