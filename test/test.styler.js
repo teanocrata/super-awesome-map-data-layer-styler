@@ -28,7 +28,7 @@ describe('Styler getting started', function () {
 
     it('"addStyler" function should fail if there is not button element for the button id provided', function () {
       var styler = require('../styler')
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       assert.throws(styler.addStyler.bind(styler, 'button', map), Error)
     })
 
@@ -40,7 +40,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       assert.doesNotThrow(styler.addStyler.bind(styler, buttonId, map), Error)
     })
   })
@@ -54,7 +54,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       styler.addStyler(buttonId, map)
       var stylerPane = document.getElementById('styler-pane')
       assert.isNotNull(stylerPane)
@@ -68,7 +68,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       styler.addStyler(buttonId, map)
       styler.addStyler(buttonId, map)
       var stylerPane = document.getElementsByClassName('styler-pane')
@@ -83,7 +83,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       styler.addStyler(buttonId, map)
       var stylerPane = document.getElementById('styler-pane')
       var buttons = stylerPane.getElementsByTagName('button')
@@ -98,7 +98,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       styler.addStyler(buttonId, map)
       var stylerPane = document.getElementById('styler-pane')
       assert.isFalse(stylerPane.classList.contains('active'), 'initial state: no active')
@@ -116,7 +116,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       var options = []
       assert.doesNotThrow(styler.addStyler.bind(styler, buttonId, map, options), Error)
     })
@@ -129,7 +129,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       var options = [{label: 'Marker',
         type: 'select',
         mapStyleOption: 'marker',
@@ -175,7 +175,7 @@ describe('Styler getting started', function () {
       buttonIdAttributte.value = buttonId
       button.setAttributeNode(buttonIdAttributte)
       document.body.appendChild(button)
-      var map = {}
+      var map = {data: {setStyle: function () {}}}
       var options = [{label: 'Marker',
         type: 'select',
         mapStyleOption: 'marker',

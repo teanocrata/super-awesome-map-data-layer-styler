@@ -1,6 +1,18 @@
 # super-awesome-map-data-layer-styler
 Visual component for styling data on top of a map
 
+* [Description](#description)
+* [Get Started](#get-started)
+* [Stack](#stack)
+* [Install](#install)
+  * [Loading the super-awesome-map-data-layer-styler component](#loading-the-super-awesome-map-data-layer-styler-component)
+* [Usage](#usage)
+  * [Options syntax](#options-syntax)
+  * [Development](#development)
+* [And more...](#and-more-...)
+* [Next steps](#next-steps)
+___
+
 ## Description
 
 The component let users to style features in a map data layer. There ara many available options, for example, marker, fill color, opacity,...
@@ -81,7 +93,7 @@ To create a styler pane add the following code to your script:
 ```javascript
 styler.addStyler('edit-button', map, options)
 ```
-## Development
+### Development
 
 To run the test you will need to install all dependencies, you will need `nodejs` as well as `npm`. Then in the root directory run:
 ```
@@ -103,8 +115,11 @@ And you can start a server with:
 $ npm serve
 ```
 
-> super-awesome-map-data-layer-styler uses Google Maps JavaScript API, to load it, use a sript tag with your own API key (see [Get a Key](https://developers.google.com/maps/documentation/javascript/get-api-key) for more information). You can choose one of [these tutorials](https://developers.google.com/maps/documentation/javascript/) to learns about it.
+> super-awesome-map-data-layer-styler uses Google Maps JavaScript API, to load it, use a sript tag with your own API key (see [Get a Key](https://developers.google.com/maps/documentation/javascript/get-api-key) for more information). You can choose one of [these tutorials](https://developers.google.com/maps/documentation/javascript/) to learn about it.
 
+## And more...
+
+Have you seen a power button? :bowtie: You can select one numeric value for each range selector and :boom: it scales the values based on the feature property selected
 
 ## Next steps
 
