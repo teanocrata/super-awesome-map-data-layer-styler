@@ -8,23 +8,26 @@ var styler = (function () { // eslint-disable-line no-unused-vars
   }
 
   function createStylerPaneTemplate (options) {
-    var stylerPaneTemplate = document.createElement('nav')
-    var stylerPaneTemplateId = document.createAttribute('id')
-    stylerPaneTemplateId.value = 'styler-pane'
-    stylerPaneTemplate.setAttributeNode(stylerPaneTemplateId)
-    stylerPaneTemplate.classList.add('styler-pane')
+    options = options || []
+    if (document.getElementsByClassName('styler-pane').length === 0) {
+      var stylerPaneTemplate = document.createElement('nav')
+      var stylerPaneTemplateId = document.createAttribute('id')
+      stylerPaneTemplateId.value = 'styler-pane'
+      stylerPaneTemplate.setAttributeNode(stylerPaneTemplateId)
+      stylerPaneTemplate.classList.add('styler-pane')
 
-    var selectorsContainer = document.createElement('ul')
-    for (var i = 0; i < options.length; i++) {
-      var option = options[i]
-      selectorsContainer.appendChild(createSelector(option))
+      var selectorsContainer = document.createElement('ul')
+      for (var i = 0; i < options.length; i++) {
+        var option = options[i]
+        selectorsContainer.appendChild(createSelector(option))
+      }
+      stylerPaneTemplate.appendChild(selectorsContainer)
+
+      addButton(selectorsContainer, 'keyboard_arrow_left', closePane)
+      addButton(selectorsContainer, 'format_color_reset', 'reset')
+
+      document.body.appendChild(stylerPaneTemplate)
     }
-    stylerPaneTemplate.appendChild(selectorsContainer)
-
-    addButton(selectorsContainer, 'keyboard_arrow_left', closePane)
-    addButton(selectorsContainer, 'format_color_reset', 'reset')
-
-    document.body.appendChild(stylerPaneTemplate)
   }
 
   function createSelector (option) {
@@ -102,7 +105,9 @@ var styler = (function () { // eslint-disable-line no-unused-vars
   }
 
   function bindTo (buttonId, map) {
-    document.getElementById(buttonId).addEventListener('click', function () {
+    var editButton = document.getElementById(buttonId)
+    if (!editButton) throw new Error('Whoops! I need a button element to bind the styler pane')
+    editButton.addEventListener('click', function () {
       document.getElementById('styler-pane').classList.toggle('active')
     })
 
@@ -126,25 +131,18 @@ var styler = (function () { // eslint-disable-line no-unused-vars
   function changeStyle (map) {
     var options = stylerPane.getValues()
 
-    var symbolPath = {
-      'BACKWARD_CLOSED_ARROW': google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-      'BACKWARD_OPEN_ARROW': google.maps.SymbolPath.BACKWARD_OPEN_ARROW,
-      'CIRCLE': google.maps.SymbolPath.CIRCLE,
-      'FORWARD_CLOSED_ARROW': google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-      'FORWARD_OPEN_ARROW': google.maps.SymbolPath.FORWARD_OPEN_ARROW
-    }
-
     if (options.marker === 'DEFAULT') {
       reset(map)
     } else {
       // Add a basic style.
       map.data.setStyle(function (feature) {
+        console.log('pre')
         var title = feature.getProperty('nameascii') + ', ' + feature.getProperty('adm1name') + ' (' + feature.getProperty('adm0name') + ')'
 
-        return /** @type {google.maps.Data.StyleOptions} */({
+        return ({
           title: title,
           icon: {
-            path: symbolPath[options.marker] || google.maps.SymbolPath.CIRCLE,
+            path: 0,
             scale: options.size || 1,
             fillColor: options.fillColor || '#000000',
             fillOpacity: options.opacity || 0,
@@ -160,8 +158,12 @@ var styler = (function () { // eslint-disable-line no-unused-vars
 
   return {
     addStyler: function (buttonId, map, options) {
+      if (!buttonId) throw new Error('Whoops! I need a button id')
+      if (!map) throw new Error('Whoops! I need a map element')
       stylerPane.createTemplate(options)
       stylerPane.bindTo(buttonId, map)
     }
   }
 })()
+
+if (typeof exports !== 'undefined') { exports.addStyler = styler.addStyler }
