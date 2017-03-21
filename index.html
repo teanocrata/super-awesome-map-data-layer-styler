@@ -111,18 +111,18 @@
         var options = [
           {label: 'Marker', type: 'select', mapStyleOption: 'marker', settings: {options: [
             {label: 'Maps marker', value: 'DEFAULT'},
-            {label: 'Circle', value: 'CIRCLE'},
+            {label: 'Circle', value: 'CIRCLE', selected: 'selected'},
             {label: 'Down Closed arrow', value: 'BACKWARD_CLOSED_ARROW'},
             {label: 'Down Open arrow', value: 'BACKWARD_OPEN_ARROW'},
             {label: 'Up Closed arrow', value: 'FORWARD_CLOSED_ARROW'},
             {label: 'Up Open arrow', value: 'FORWARD_OPEN_ARROW'}
           ]}},
-          {label: 'Fill', type: 'color', mapStyleOption: 'fillColor'},
-          {label: 'Opacity', type: 'range', mapStyleOption: 'fillOpacity', settings: {min: 0, max: 1, step: 0.01, value:0}},
-          {label: 'Stroke', type: 'color', mapStyleOption: 'strokeColor'},
-          {label: 'Stroke weigth', type: 'range', mapStyleOption: 'strokeWeight', settings: {min: 0, max: 10}},
+          {label: 'Fill', type: 'color', mapStyleOption: 'fillColor', settings: {value: '#b2d5aa'}},
+          {label: 'Opacity', type: 'range', mapStyleOption: 'fillOpacity', settings: {min: 0, max: 1, step: 0.01, value:0.8}},
+          {label: 'Stroke', type: 'color', mapStyleOption: 'strokeColor', settings: {value: '#3c6d59'}},
+          {label: 'Stroke weigth', type: 'range', mapStyleOption: 'strokeWeight', settings: {min: 0, max: 10, value: 1}},
           {label: 'Stroke opacity', type: 'range', mapStyleOption: 'strokeOpacity', settings: {min: 0, max: 1, step: 0.01, value: 1}},
-          {label: 'Size', type: 'range', mapStyleOption: 'size', settings: {min: 0, max: 10}},
+          {label: 'Size', type: 'range', mapStyleOption: 'size', settings: {min: 0, max: 10, value: 5}},
           {label: 'Rotation', type: 'range', mapStyleOption: 'rotation', settings: {min: 0, max: 360, value: 0}}
         ]
 

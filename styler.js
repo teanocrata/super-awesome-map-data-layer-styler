@@ -5,7 +5,8 @@ var styler = (function () { // eslint-disable-line no-unused-vars
   var stylerPane = {
     createTemplate: createStylerPaneTemplate,
     getValues: getValues,
-    bindTo: bindTo
+    bindTo: bindTo,
+    changeStyle: changeStyle
   }
 
   function createStylerPaneTemplate (options) {
@@ -87,6 +88,9 @@ var styler = (function () { // eslint-disable-line no-unused-vars
         var selectOption = document.createElement('option')
         selectOption.value = option.settings.options[optionValues].value
         selectOption.innerHTML = option.settings.options[optionValues].label
+        if (option.settings.options[optionValues].selected) {
+          selectOption.selected = true
+        }
         input.appendChild(selectOption)
       }
     } else {
@@ -270,6 +274,7 @@ var styler = (function () { // eslint-disable-line no-unused-vars
       if (!map) throw new Error('Whoops! I need a map element')
       stylerPane.createTemplate(options)
       stylerPane.bindTo(buttonId, map)
+      stylerPane.changeStyle(map, false)
     }
   }
 })()
