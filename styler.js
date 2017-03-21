@@ -14,21 +14,17 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     stylerPaneTemplate.setAttributeNode(stylerPaneTemplateId)
     stylerPaneTemplate.classList.add('styler-pane')
 
-    var content = '<ul id="selectors">' +
-      '<li id="close-pane"><button id="close"><i class="material-icons">keyboard_arrow_left</i></li>' +
-      '<li><button id="reset" type="reset"><i class="material-icons">format_color_reset</i></button></li>'
-    stylerPaneTemplate.innerHTML = content
-    document.body.appendChild(stylerPaneTemplate)
-
-    var closeButton = document.getElementById('close-pane')
-
+    var selectorsContainer = document.createElement('ul')
     for (var i = 0; i < options.length; i++) {
       var option = options[i]
-      document.getElementById('selectors').insertBefore(createSelector(option), closeButton)
+      selectorsContainer.appendChild(createSelector(option))
     }
+    stylerPaneTemplate.appendChild(selectorsContainer)
 
-    var closeButton2 = document.getElementById('close')
-    closeButton2.addEventListener('click', closePane)
+    addButton(selectorsContainer, 'keyboard_arrow_left', closePane)
+    addButton(selectorsContainer, 'format_color_reset', 'reset')
+
+    document.body.appendChild(stylerPaneTemplate)
   }
 
   function createSelector (option) {
@@ -69,6 +65,32 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     selector.appendChild(input)
 
     return selector
+  }
+
+  function createButton (icon) {
+    var closeButton = document.createElement('button')
+
+    var closeButtonContent = document.createElement('i')
+    closeButtonContent.classList.add('material-icons')
+    closeButtonContent.textContent = icon
+    closeButton.appendChild(closeButtonContent)
+
+    return closeButton
+  }
+
+  function addButton (element, icon, event) {
+    var buttonContainer = document.createElement('li')
+    var button = createButton(icon)
+    if (typeof event === 'function') {
+      button.addEventListener('click', event)
+    } else {
+      var buttonId = document.createAttribute('id')
+      buttonId.value = event
+      button.setAttributeNode(buttonId)
+    }
+
+    buttonContainer.appendChild(button)
+    element.appendChild(buttonContainer)
   }
 
   function getValues () {
