@@ -136,7 +136,6 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     } else {
       // Add a basic style.
       map.data.setStyle(function (feature) {
-        console.log('pre')
         var title = feature.getProperty('nameascii') + ', ' + feature.getProperty('adm1name') + ' (' + feature.getProperty('adm0name') + ')'
 
         return ({
