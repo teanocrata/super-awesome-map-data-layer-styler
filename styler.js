@@ -142,7 +142,7 @@ var styler = (function () { // eslint-disable-line no-unused-vars
         return ({
           title: title,
           icon: {
-            path: symbolPath[options.marker] || google.maps.SymbolPath.CIRCLE,
+            path: google.maps.SymbolPath[options.marker] || google.maps.SymbolPath.CIRCLE,
             scale: options.size || 1,
             fillColor: options.fillColor || '#000000',
             fillOpacity: options.opacity || 0,
