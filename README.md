@@ -6,6 +6,8 @@ Visual component for styling data on top of a map
 The component let users to style features in a map data layer. There ara many available options, for example, marker, fill color, opacity,...
 When either the data, or the rules, are updated, the styling will be automatically applied to every feature.
 
+![](https://preview.ibb.co/dPbWaa/2017_03_21_190423.png)
+
 ## Get Started
 
 The easiest way to start learning about super-awesome-map-data-layer-styler for Google Maps Data Layer is to see a simple example. The following [index.html file](index.html) displays a map with a sidebar. You can test it at [super-awesome-map-data-layer-style page](https://teanocrata.github.io/super-awesome-map-data-layer-styler/). To use this example, drag and drop a GeoJSON file or files from your computer on to the map above. You can also drag text or HTML GeoJSON content from another website or from the sample below.
