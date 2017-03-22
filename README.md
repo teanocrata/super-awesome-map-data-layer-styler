@@ -9,7 +9,7 @@ Visual component for styling data on top of a map
 * [Usage](#usage)
   * [Options syntax](#options-syntax)
   * [Development](#development)
-* [And more...](#and-more-...)
+* [And more...](#and-more)
 * [Next steps](#next-steps)
 ___
 
@@ -130,6 +130,8 @@ And change advanced options for a real choropleth map!
 
 ## Next steps
 
-* choropleth map
 * legend
-* easter egg
+* easter egg? :hatching_chick:
+* I need a refactor!!! :hankey:
+* And test :dancer:
+* And learn about UX :sweat_smile:
