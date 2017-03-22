@@ -34,6 +34,15 @@
     <nav class="navigation-pane">
       <ul>
         <li><button id ='edit-button'><i class="material-icons">mode_edit</i></button></li>
+        <li><div class="dropdown"><button id ='samples-button' class="dropbtn"><i class="material-icons">backup</i>
+            <select id="sample-data" class="dropdown-content" onchange="loadGeoJsonUrl()">
+              <option value="none">Select sample data</option>
+              <option value="https://raw.githubusercontent.com/teanocrata/super-awesome-map-data-layer-styler/master/test/fixtures/cartodb-query.geojson">cartodb-query.geojson</option>
+              <option value="https://raw.githubusercontent.com/teanocrata/super-awesome-map-data-layer-styler/master/test/fixtures/cartodb-query_mod.geojson">Modified cartodb-query.geojson</option>
+              <option value="https://gist.githubusercontent.com/dmarg/b2959e771ae680acbc95/raw/815a03f55d028dace4371c27d0b787ca0f2f2b5d/states.json">Choropleth sample</option>
+            </select></button>
+          </div>
+        </li>
       </ul>
     </nav>
     <div class="dashboard">
@@ -138,6 +147,13 @@
 
       function hidePanel(e) {
         document.getElementById('drop-container').style.display = 'none';
+      }
+
+      function loadGeoJsonUrl(){
+        var url = document.getElementById("sample-data").value;
+        if(url !== 'none'){
+          map.data.loadGeoJson(url)
+        }
       }
 
       function handleDrop(e) {

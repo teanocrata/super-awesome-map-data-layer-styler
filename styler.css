@@ -122,3 +122,22 @@ button:hover{
 .hide {
   display: none
 }
+
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    color: white;
+}
+
+/* Links inside the dropdown */
+.dropdown-content option {
+    display: block;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}

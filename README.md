@@ -120,6 +120,10 @@ $ npm serve
 ## And more...
 
 Have you seen a power button? :bowtie: You can select one numeric value for each range selector and :boom: it scales the values based on the feature property selected
+![](https://i.imgur.com/MCZ074S.png)
+
+Play with our examples, select it with the upload button and enjoy! You can select a cuasi-choropleth map
+![](https://i.imgur.com/epTrUuQ.png)
 
 ## Next steps
 

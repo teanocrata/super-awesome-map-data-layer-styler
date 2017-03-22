@@ -228,6 +228,11 @@ var styler = (function () { // eslint-disable-line no-unused-vars
 
           return ({
             title: title,
+            fillColor: options.fillColor || '#000000',
+            fillOpacity: options.fillOpacity || 0,
+            strokeColor: options.strokeColor || '#000000',
+            strokeWeight: options.strokeWeight || 1,
+            strokeOpacity: options.strokeOpacity || 1,
             icon: {
               path: google.maps.SymbolPath[options.marker] || google.maps.SymbolPath.CIRCLE,
               scale: options.size || 1,
