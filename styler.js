@@ -53,20 +53,18 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     var selectors = selectorsContainer.getElementsByTagName('input')
 
     for (var selector = 0; selector < selectors.length; selector++) {
-      if (selectors[selector].getAttribute('type') === 'range') {
-        var option = {label: selectors[selector].parentNode.innerText,
-          type: 'select',
-          mapStyleOption: selectors[selector].getAttribute('id'),
-          settings: {options: [{label: 'Default', value: 'default'}]
-          }
+      var option = {label: selectors[selector].parentNode.innerText,
+        type: 'select',
+        mapStyleOption: selectors[selector].getAttribute('id'),
+        settings: {options: [{label: 'Default', value: 'default'}]
         }
-        for (var numericVariable in numericVariables) {
-          if (numericVariables[numericVariable].min !== numericVariables[numericVariable].max && !numericVariable.includes('id')) {
-            option.settings.options.push({label: numericVariable, value: numericVariable})
-          }
-        }
-        selectorsContainer.appendChild(createSelector(option, 'dynamicSelector'))
       }
+      for (var numericVariable in numericVariables) {
+        if (numericVariables[numericVariable].min !== numericVariables[numericVariable].max && !numericVariable.includes('id')) {
+          option.settings.options.push({label: numericVariable, value: numericVariable})
+        }
+      }
+      selectorsContainer.appendChild(createSelector(option, 'dynamicSelector'))
     }
 
     Array.from(document.getElementsByClassName('dynamicSelector')).forEach(function (selector) {
@@ -214,6 +212,22 @@ var styler = (function () { // eslint-disable-line no-unused-vars
     toggleDynamicStylerPaneTemplate(map)
   }
 
+  function getColor (value, minValue, maxValue) {
+    var low = [5, 69, 54] // color of smallest datum
+    var high = [151, 83, 34]  // color of largest datum
+
+    // delta represents where the value sits between the min and max
+    var delta = (value - minValue) / (maxValue - minValue)
+
+    var color = []
+    for (var i = 0; i < 3; i++) {
+      // calculate an integer color based on the delta
+      color[i] = (high[i] - low[i]) * delta + low[i]
+    }
+
+    return 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)'
+  }
+
   function changeStyle (map, dynamic) {
     dynamic = dynamic || false
     var options = stylerPane.getValues(dynamic)
@@ -255,18 +269,22 @@ var styler = (function () { // eslint-disable-line no-unused-vars
         var strokeWeight = options.strokeWeight === 'default' ? 0.3 : (feature.getProperty(options.strokeWeight) - numericVariables[options.strokeWeight].min) / (numericVariables[options.strokeWeight].max - numericVariables[options.strokeWeight].min)
         var strokeOpacity = options.strokeOpacity === 'default' ? 1 : (feature.getProperty(options.strokeOpacity) - numericVariables[options.strokeOpacity].min) / (numericVariables[options.strokeOpacity].max - numericVariables[options.strokeOpacity].min)
         var rotation = options.rotation === 'default' ? 0 : (feature.getProperty(options.rotation) - numericVariables[options.rotation].min) / (numericVariables[options.rotation].max - numericVariables[options.rotation].min)
+        var fillColor = options.fillColor === 'default' ? '#000000' : getColor(feature.getProperty(options.fillColor), numericVariables[options.fillColor].min, numericVariables[options.fillColor].max)
+        var strokeColor = options.strokeColor === 'default' ? '#000000' : getColor(feature.getProperty(options.strokeColor), numericVariables[options.strokeColor].min, numericVariables[options.strokeColor].max)
 
         return ({
           title: title,
+          fillColor: fillColor,
           fillOpacity: fillOpacity,
+          strokeColor: strokeColor,
           strokeWeight: strokeWeight,
           strokeOpacity: strokeOpacity,
           icon: {
             path: google.maps.SymbolPath.CIRCLE,
             scale: 20 * size,
-            fillColor: '#000000',
+            fillColor: fillColor,
             fillOpacity: fillOpacity,
-            strokeColor: '#000000',
+            strokeColor: strokeColor,
             strokeWeight: strokeWeight,
             strokeOpacity: strokeOpacity,
             rotation: rotation
