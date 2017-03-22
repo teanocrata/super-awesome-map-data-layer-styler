@@ -258,6 +258,9 @@ var styler = (function () { // eslint-disable-line no-unused-vars
 
         return ({
           title: title,
+          fillOpacity: fillOpacity,
+          strokeWeight: strokeWeight,
+          strokeOpacity: strokeOpacity,
           icon: {
             path: google.maps.SymbolPath.CIRCLE,
             scale: 20 * size,

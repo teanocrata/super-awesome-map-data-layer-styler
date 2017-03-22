@@ -125,6 +125,9 @@ Have you seen a power button? :bowtie: You can select one numeric value for each
 Play with our examples, select it with the upload button and enjoy! You can select a cuasi-choropleth map
 ![](https://i.imgur.com/epTrUuQ.png)
 
+And change advanced options for a real choropleth map!
+![](https://i.imgur.com/gADD4EH.png)
+
 ## Next steps
 
 * choropleth map
